@@ -37,14 +37,14 @@ class Tracker:
 
     def parse_candidates(self):
         self.get_data()
-        cand_0_list = [x for x in self.jsonResponse if (x['gid'] == self.gid and x['bnm'] in self.names[0])]
-        self.cands[0] = float(cand_0_list[0]['pct'])
+        cand_0 = [x for x in self.jsonResponse if (x['gid'] == self.gid and x['bnm'] in self.names[0])]
+        self.cands[0] = float(cand_0[0]['pct'])
         if self.sim:
             self.cands[0] = random.uniform(0.0, 0.95)
-        cand_1_list = [x for x in self.jsonResponse if (x['gid'] == self.gid and x['bnm'] in self.names[1])]
-        self.cands[1] = float(cand_1_list[0]['pct'])
+        cand_1 = [x for x in self.jsonResponse if (x['gid'] == self.gid and x['bnm'] in self.names[1])]
+        self.cands[1] = float(cand_1[0]['pct'])
         if self.sim:
-            self.cands[1] = 1 - self.cands[0] - .05
+            self.cands[1] = 1 - self.cands[0] - .03
     
     def calc_lights(self):
         self.lights[0] = math.floor(self.cands[0] * 8 * 8)
@@ -55,6 +55,7 @@ class Tracker:
         print("{:<13} {:>7.2%} | {:>2d}/64".format(self.names[0], self.cands[0], self.lights[0]))
         print("{:<13} {:>7.2%} | {:>2d}/64".format(self.names[1], self.cands[1], self.lights[1]))
         print("{:<13} {:>7.2%} | {:>2d}/64".format("Und", 1 - (self.cands[0] + self.cands[1]), self.lights[2]))
+        print("")
 
     def form_light_list(self):
         self.logo[:] = []
@@ -62,16 +63,19 @@ class Tracker:
         self.logo.extend([self.purple] * self.lights[2])
         self.logo.extend([self.red] * self.lights[1])
 
+    def update_once(self):
+        self.get_data()
+        self.parse_candidates()
+        self.calc_lights()
+        self.print_data()
+        self.form_light_list()
+        if self.hw:
+            self.s.set_pixels(self.logo)
+
     def track(self):
         try:
             while True:
-                self.get_data()
-                self.parse_candidates()
-                self.calc_lights()
-                self.print_data()
-                self.form_light_list()
-                if self.hw:
-                    self.s.set_pixels(self.logo)
+                self.update_once()
                 if self.sim:
                     time.sleep(5)
                 else:
@@ -88,7 +92,8 @@ def main():
             names = ['Cheri Beasley', 'Ted Budd'],
             hw = True,
             sim = True)
-    t1.track()
+    t1.update_once()
+    #t1.track()
 
 if __name__ == '__main__':
     main()
