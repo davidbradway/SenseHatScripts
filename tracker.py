@@ -86,6 +86,7 @@ class Tracker:
 
 
 def main():
+    # set up a tracker for the NC Senate race in November 2022.
     t1 = Tracker(
             url = 'https://er.ncsbe.gov/enr/20221108/data/results_0.txt?v=3-11-31',
             gid = '1378',
