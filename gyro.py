@@ -46,17 +46,17 @@ class Stepper():
             self.s.clear()
 
     def unwrap(self, o):
-        'Unwrap the roll pitch and yaw to range [-180, 180]'
+        'Unwrap the roll, pitch, and yaw to range [-180, 180]'
         for k, v in o.items():
             o[k] = v-360 if v> 180 else v
             o[k] = v+360 if v<-180 else v
         return o
     
-    def move_dot(self):
-        self.x = self.clamp(self.x+1) if self.d['pitch']<-.3 else self.x
-        self.x = self.clamp(self.x-1) if self.d['pitch']> .3 else self.x
-        self.y = self.clamp(self.y+1) if self.d['roll'] > .3 else self.y
-        self.y = self.clamp(self.y-1) if self.d['roll'] <-.3 else self.y
+    def move_dot(self, thresh=0.3):
+        self.x = self.clamp(self.x+1) if self.d['pitch']<-1*thresh else self.x
+        self.x = self.clamp(self.x-1) if self.d['pitch']>   thresh else self.x
+        self.y = self.clamp(self.y+1) if self.d['roll'] >   thresh else self.y
+        self.y = self.clamp(self.y-1) if self.d['roll'] <-1*thresh else self.y
         
     def clamp(self, value, min_value=0, max_value=7):
         return min(max_value, max(min_value, value))
