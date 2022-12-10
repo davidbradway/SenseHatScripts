@@ -26,7 +26,7 @@ class Tracker:
         self.blue = [0, 0, 255]
         self.red = [255, 0, 0]
         self.purple = [255, 0, 255]
-        self.cands = [0, 0] 
+        self.cands = [0, 0]
         self.lights = [0, 0, 0]
 
     def get_data(self):
@@ -45,7 +45,7 @@ class Tracker:
         self.cands[1] = float(cand_1[0]['pct'])
         if self.sim:
             self.cands[1] = 1 - self.cands[0] - .03
-    
+
     def calc_lights(self):
         self.lights[0] = math.floor(self.cands[0] * 8 * 8)
         self.lights[1] = math.floor(self.cands[1] * 8 * 8)
@@ -93,8 +93,8 @@ def main():
             names = ['Cheri Beasley', 'Ted Budd'],
             hw = True,
             sim = True)
-    t1.update_once()
-    #t1.track()
+    #t1.update_once()
+    t1.track()
 
 if __name__ == '__main__':
     main()
