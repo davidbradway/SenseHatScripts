@@ -28,7 +28,7 @@ class Stepper():
     def _run(self):
         try:
             while(True):
-                if True: #time.time_ns()/1000. > self.next_t:
+                if time.time_ns()/1000. > self.next_t:
                     self.next_t += self.increment
 
                     # Get the new orientation
@@ -53,10 +53,10 @@ class Stepper():
         return o
     
     def move_dot(self, thresh=0.3):
-        self.x = self.clamp(self.x+1) if self.d['pitch']<-1*thresh else self.x
-        self.x = self.clamp(self.x-1) if self.d['pitch']>   thresh else self.x
-        self.y = self.clamp(self.y+1) if self.d['roll'] >   thresh else self.y
-        self.y = self.clamp(self.y-1) if self.d['roll'] <-1*thresh else self.y
+        self.x = self.clamp(self.x+1) if self.d['pitch']<-thresh else self.x
+        self.x = self.clamp(self.x-1) if self.d['pitch']> thresh else self.x
+        self.y = self.clamp(self.y+1) if self.d['roll'] > thresh else self.y
+        self.y = self.clamp(self.y-1) if self.d['roll'] <-thresh else self.y
         
     def clamp(self, value, min_value=0, max_value=7):
         return min(max_value, max(min_value, value))
@@ -67,7 +67,7 @@ class Stepper():
 
 
 def main():
-    a = Stepper(increment = 10.)
+    a = Stepper(increment = 500.)
 
 if __name__ == '__main__':
    main()
