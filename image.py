@@ -8,20 +8,14 @@ sense = SenseHat()
 # load a PNG from file
 img = Image.open('0.png')
 
-for i in [45, 90, 135, 180, 225, 270, 315, 360]:
-	rotated = img.rotate(i)
+for i in np.linspace(0,360,17):
+	# Rotate and invert the pixel values
+	inverted = ImageChops.invert(img.rotate(angle=i, fillcolor=(255,255,255)))
 
-	# Invert the pixel values
-	inverted = ImageChops.invert(rotated)
-
-	# Convert to Numpy array
-	inv_arry = np.array(inverted)
-	# flatten rows and columns
-	flatter = inv_arry.reshape(64,4)
-	# remove the alpha value from RGBA
-	new = flatter[:, 0:3]
-	# Write to matrix array
-	sense.set_pixels(new)
+	# Convert to Numpy array and flatten rows and columns
+	flatter = np.array(inverted).reshape(64,4)
+	# remove alpha value from RGBA and write to matrix array
+	sense.set_pixels(flatter[:, 0:3])
 	time.sleep(1)
 
 sense.clear()
