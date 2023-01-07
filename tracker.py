@@ -7,26 +7,32 @@ from urllib.request import Request, urlopen  # Python 3
 
 class Tracker:
     def __init__(self, url, gid, names, hw, sim):
-        self.url = url
-        self.gid = gid
-        self.names = names
-        self.hw = hw
-        self.sim = sim
+        # initialize the object with parameters passed to the constructor
+        self.url = url  # URL of the results data page
+        self.gid = gid  # ID of the race we are tracking
+        self.names = names  # Strings that match the names of the candidates
+        self.hw = hw  # boolean: do I have the Sense Hat hardware?
+        self.sim = sim  # boolean: should I simulate changing results over time
+        
         if self.hw:
             from sense_hat import SenseHat
             self.s = SenseHat()
             self.s.low_light = True
+        # Create header for URL lib request.
         self.hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
                 'Accept-Encoding': 'none',
                 'Accept-Language': 'en-US,en;q=0.8',
                 'Connection': 'keep-alive'}
-        self.logo = list()
+        self.logo = list()  # logo will contain the image date for the LEDs
+        # Define some colors
         self.blue = [0, 0, 255]
         self.red = [255, 0, 0]
         self.purple = [255, 0, 255]
+        # Percentage shares
         self.cands = [0, 0]
+        # Number of blue, purple, and red LEDs to light
         self.lights = [0, 0, 0]
 
     def get_data(self):
@@ -36,15 +42,14 @@ class Tracker:
         self.jsonResponse = json.loads(body)
 
     def parse_candidates(self):
-        self.get_data()
-        cand_0 = [x for x in self.jsonResponse if (x['gid'] == self.gid and x['bnm'] in self.names[0])]
-        self.cands[0] = float(cand_0[0]['pct'])
         if self.sim:
             self.cands[0] = random.uniform(0.0, 0.95)
-        cand_1 = [x for x in self.jsonResponse if (x['gid'] == self.gid and x['bnm'] in self.names[1])]
-        self.cands[1] = float(cand_1[0]['pct'])
-        if self.sim:
             self.cands[1] = 1 - self.cands[0] - .03
+        else:
+            cand_0 = [x for x in self.jsonResponse if (x['gid'] == self.gid and x['bnm'] in self.names[0])]
+            self.cands[0] = float(cand_0[0]['pct'])
+            cand_1 = [x for x in self.jsonResponse if (x['gid'] == self.gid and x['bnm'] in self.names[1])]
+            self.cands[1] = float(cand_1[0]['pct'])
 
     def calc_lights(self):
         self.lights[0] = math.floor(self.cands[0] * 8 * 8)
