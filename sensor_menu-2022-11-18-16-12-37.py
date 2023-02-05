@@ -87,13 +87,16 @@ if flip:
     hat.set_rotation(180)
 
 selection = 'T'
-while True:
-    display(hat, selection)
-    event = hat.stick.wait_for_event()
-    if event.action == ACTION_PRESSED:
-        if event.direction == DIRECTION_MIDDLE:
-            if execute(hat, selection):
-                break
-        else:
-            selection = move(selection, event.direction)
+try:
+    while True:
+        display(hat, selection)
+        event = hat.stick.wait_for_event()
+        if event.action == ACTION_PRESSED:
+            if event.direction == DIRECTION_MIDDLE:
+                if execute(hat, selection):
+                    break
+            else:
+                selection = move(selection, event.direction)
+except:
+    hat.clear()
 hat.clear()
