@@ -3,7 +3,8 @@
 
 import numpy as np
 from time import sleep
-#from sense_emu import SenseHat
+
+# from sense_emu import SenseHat
 from sense_hat import SenseHat
 
 
@@ -12,6 +13,7 @@ def clamp(value, min_value, max_value):
     Returns *value* clamped to the range *min_value* to *max_value* inclusive.
     """
     return min(max_value, max(min_value, value))
+
 
 def scale(value, from_min, from_max, to_min=0, to_max=8):
     """
@@ -23,6 +25,7 @@ def scale(value, from_min, from_max, to_min=0, to_max=8):
     from_range = from_max - from_min
     to_range = to_max - to_min
     return (((value - from_min) / from_range) * to_range) + to_min
+
 
 def render_bar(screen, origin, width, height, color):
     """
@@ -39,6 +42,7 @@ def render_bar(screen, origin, width, height, color):
     y1, y2 = max_y - y2, max_y - y1
     # Draw the bar
     screen[y1:y2, x1:x2, :] = color
+
 
 def display_readings(hat):
     """
@@ -68,4 +72,3 @@ try:
         sleep(0.1)
 except:
     hat.clear()
-
