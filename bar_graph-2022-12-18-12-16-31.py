@@ -58,6 +58,9 @@ def display_readings(hat):
     temperature = scale(clamp(hat.temperature, *temperature_range), *temperature_range)
     pressure = scale(clamp(hat.pressure, *pressure_range), *pressure_range)
     humidity = scale(clamp(hat.humidity, *humidity_range), *humidity_range)
+
+    print(f'{hat.temperature=}, {hat.pressure=}, {hat.humidity=}')
+
     # Render the bars
     screen = np.zeros((8, 8, 3), dtype=np.uint8)
     render_bar(screen, (0, 0), 2, round(temperature), color=(255, 0, 0))
@@ -72,7 +75,7 @@ if __name__ == "__main__":
     try:
         while True:
             display_readings(hat)
-            sleep(0.1)
+            sleep(10)
     except:
         hat.clear()
     hat.clear()
