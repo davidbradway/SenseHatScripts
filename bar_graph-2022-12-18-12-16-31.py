@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # This file has been written to your home directory for convenience. It is
 # saved as "/home/dpb6/bar_graph-2022-12-18-12-16-31.py"
 
@@ -64,11 +66,13 @@ def display_readings(hat):
     hat.set_pixels([pixel for row in screen for pixel in row])
 
 
-hat = SenseHat()
-hat.set_rotation(180)
-try:
-    while True:
-        display_readings(hat)
-        sleep(0.1)
-except:
+if __name__ == "__main__":
+    hat = SenseHat()
+    hat.set_rotation(180)
+    try:
+        while True:
+            display_readings(hat)
+            sleep(0.1)
+    except:
+        hat.clear()
     hat.clear()

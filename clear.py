@@ -1,4 +1,7 @@
-from sense_hat import *
+#!/usr/bin/python
 
-hat = SenseHat()
-hat.clear()
+if __name__ == "__main__":
+    from sense_hat import *
+    hat = SenseHat()
+    hat.clear()
+

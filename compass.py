@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import numpy as np
 from PIL import Image, ImageChops
 from sense_hat import SenseHat
