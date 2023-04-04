@@ -59,7 +59,11 @@ def display_readings(hat):
     pressure = scale(clamp(hat.pressure, *pressure_range), *pressure_range)
     humidity = scale(clamp(hat.humidity, *humidity_range), *humidity_range)
 
-    print(f'{hat.temperature=:.1f}'+u'\N{DEGREE SIGN}'+f'C, {hat.pressure=:.1f} mbar, {hat.humidity=:.1f}%')
+    print(
+        f"{hat.temperature=:.1f}"
+        + "\N{DEGREE SIGN}"
+        + f"C, {hat.pressure=:.1f} mbar, {hat.humidity=:.1f}%"
+    )
 
     # Render the bars
     screen = np.zeros((8, 8, 3), dtype=np.uint8)

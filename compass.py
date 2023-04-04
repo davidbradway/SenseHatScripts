@@ -55,7 +55,7 @@ def find_dir(deg):
 def show_arrow(img, sense):
     # Rotate and invert the pixel values
     inverted = ImageChops.invert(
-        img.rotate(angle=round(sense.compass/22.5)*22.5, fillcolor=(255, 255, 255))
+        img.rotate(angle=round(sense.compass / 22.5) * 22.5, fillcolor=(255, 255, 255))
     )
     # Convert to Numpy array and flatten rows and columns
     flat = np.array(inverted).reshape(64, 4)
