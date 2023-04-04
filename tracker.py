@@ -112,7 +112,8 @@ class Tracker:
                 else:
                     time.sleep(10 * 60)
         except:
-            self.s.clear()
+            if self.hw:
+                self.s.clear()
             print("\nInterrupted!", sys.exc_info()[0], "occured")
 
 
