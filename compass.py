@@ -5,29 +5,6 @@ from PIL import Image, ImageChops
 from sense_hat import SenseHat
 
 
-def main():
-    sense = SenseHat()
-    sense.set_rotation(90)
-
-    # load a PNG from file
-    img = Image.open("0.png")
-
-    last_direction = ""
-
-    try:
-        while True:
-            direction = find_dir(sense.compass)
-            if last_direction != direction:
-                # sense.show_message(sense.compass)
-                show_arrow(img, sense)
-                # print(sense.compass)
-                print(direction)
-            last_direction = direction
-    except:
-        print("\n Quitting")
-        sense.clear()
-
-
 def find_dir(deg):
     directions = [
         "N",
@@ -63,5 +40,29 @@ def show_arrow(img, sense):
     sense.set_pixels(flat[:, 0:3])
 
 
+def main():
+    sense = SenseHat()
+    sense.set_rotation(90)
+
+    # load a PNG from file
+    img = Image.open("0.png")
+
+    last_direction = ""
+
+    try:
+        while True:
+            direction = find_dir(sense.compass)
+            if last_direction != direction:
+                # sense.show_message(sense.compass)
+                show_arrow(img, sense)
+                # print(sense.compass)
+                print(direction)
+            last_direction = direction
+    except:
+        print("\n Quitting")
+        sense.clear()
+
+
 if __name__ == "__main__":
     main()
+
