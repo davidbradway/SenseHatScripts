@@ -141,7 +141,8 @@ class Tracker:
 @click.option(
     "--once/--loop", default=True, help="Boolean for return after first check"
 )
-def track(url, gid, names, hw, sim, once):
+@click.option("--clear", default=False, is_flag=True, help="Boolean to clear")
+def track(url, gid, names, hw, sim, once, clear):
     """Simple program that tracks results at a given url"""
     t1 = Tracker(
         url,
@@ -154,6 +155,8 @@ def track(url, gid, names, hw, sim, once):
         t1.update_once()
     else:
         t1.track()
+    if clear and hw:
+        t1.s.clear()
 
 
 if __name__ == "__main__":
