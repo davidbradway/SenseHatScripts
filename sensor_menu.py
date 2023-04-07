@@ -1,8 +1,5 @@
 #!/usr/bin/python
 
-# This file has been written to your home directory for convenience. It is
-# saved as "/home/dpb6/sensor_menu-2022-11-18-16-12-37.py"
-
 # from sense_emu import *
 from sense_hat import *
 import numpy as np

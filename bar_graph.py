@@ -1,8 +1,5 @@
 #!/usr/bin/python
 
-# This file has been written to your home directory for convenience. It is
-# saved as "/home/dpb6/bar_graph-2022-12-18-12-16-31.py"
-
 import numpy as np
 from time import sleep
 
