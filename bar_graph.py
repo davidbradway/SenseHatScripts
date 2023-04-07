@@ -70,7 +70,7 @@ def display_readings(hat):
     hat.set_pixels([pixel for row in screen for pixel in row])
 
 
-if __name__ == "__main__":
+def main():
     hat = SenseHat()
     hat.set_rotation(180)
     try:
@@ -80,3 +80,7 @@ if __name__ == "__main__":
     except:
         hat.clear()
     hat.clear()
+
+
+if __name__ == "__main__":
+    main()
