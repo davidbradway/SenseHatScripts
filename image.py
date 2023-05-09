@@ -9,17 +9,28 @@ import time
 if __name__ == "__main__":
     sense = SenseHat()
 
-    # load a PNG from file
-    img = Image.open("0.png")
+    B = (0,0,0)
+    W = (255,255,255)
+    
+    l = ((B,B,B,W,W,B,B,B),
+         (B,B,W,W,W,W,B,B),
+         (B,W,W,W,W,W,W,B),
+         (W,W,W,W,W,W,W,W),
+         (B,B,B,W,W,B,B,B),
+         (B,B,B,W,W,B,B,B),
+         (B,B,B,W,W,B,B,B),
+         (B,B,B,W,W,B,B,B))
+    array = np.array(l, dtype=np.uint8)
+    img = Image.fromarray(array)
 
     for i in np.linspace(0, 360, 17):
-        # Rotate and invert the pixel values
-        inverted = ImageChops.invert(img.rotate(angle=i, fillcolor=(255, 255, 255)))
+        # Rotate the image
+        rotated = img.rotate(angle=i, fillcolor=B)
 
-        # Convert to Numpy array and flatten rows and columns
-        flatter = np.array(inverted).reshape(64, 4)
-        # remove alpha value from RGBA and write to matrix array
-        sense.set_pixels(flatter[:, 0:3])
-        time.sleep(1)
+        # Convert back to Numpy array and flatten rows and columns
+        flatter = np.array(rotated).reshape(64, 3)
+
+        sense.set_pixels(flatter)
+        time.sleep(0.5)
 
     sense.clear()
