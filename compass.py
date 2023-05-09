@@ -4,6 +4,9 @@ import numpy as np
 from PIL import Image, ImageChops
 from sense_hat import SenseHat
 
+B = (0, 0, 0)
+W = (255, 255, 255)
+
 
 def find_dir(deg):
     directions = [
@@ -31,21 +34,27 @@ def find_dir(deg):
 
 def show_arrow(img, sense):
     # Rotate and invert the pixel values
-    inverted = ImageChops.invert(
-        img.rotate(angle=round(sense.compass / 22.5) * 22.5, fillcolor=(255, 255, 255))
-    )
+    rotated = img.rotate(angle=round(sense.compass / 22.5) * 22.5, fillcolor=B)
     # Convert to Numpy array and flatten rows and columns
-    flat = np.array(inverted).reshape(64, 4)
+    flat = np.array(rotated).reshape(64, 3)
     # remove alpha value from RGBA and write to matrix array
-    sense.set_pixels(flat[:, 0:3])
+    sense.set_pixels(flat)
 
 
 def main():
     sense = SenseHat()
     sense.set_rotation(90)
-
-    # load a PNG from file
-    img = Image.open("0.png")
+    
+    l = ((B,B,B,W,W,B,B,B),
+         (B,B,W,W,W,W,B,B),
+         (B,W,W,W,W,W,W,B),
+         (W,W,W,W,W,W,W,W),
+         (B,B,B,W,W,B,B,B),
+         (B,B,B,W,W,B,B,B),
+         (B,B,B,W,W,B,B,B),
+         (B,B,B,W,W,B,B,B))
+    array = np.array(l, dtype=np.uint8)
+    img = Image.fromarray(array)
 
     last_direction = ""
 
@@ -57,7 +66,7 @@ def main():
                 show_arrow(img, sense)
                 # print(sense.compass)
                 print(direction)
-            last_direction = direction
+                last_direction = direction
     except:
         print("\n Quitting")
         sense.clear()
@@ -65,4 +74,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
