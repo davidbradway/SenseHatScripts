@@ -143,7 +143,7 @@ class Tracker:
 )
 @click.option("--clear", default=False, is_flag=True, help="Boolean to clear")
 def track(url, gid, names, hw, sim, once, clear):
-    """Simple program that tracks results at a given url"""
+    """Program that tracks NC election results at a given url"""
     t1 = Tracker(
         url,
         gid,

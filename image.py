@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
     B = (0,0,0)
     W = (255,255,255)
-    
+
     l = ((B,B,B,W,W,B,B,B),
          (B,B,W,W,W,W,B,B),
          (B,W,W,W,W,W,W,B),
